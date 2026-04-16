@@ -12,7 +12,7 @@ export class QuantityService {
   // POST /api/Conversion/{toUnit}
   convert(quantity: QuantityDTO, toUnit: string): Observable<ConversionResult> {
     return this.http.post<ConversionResult>(
-      `${this.baseUrl}/Conversion/${toUnit}`,
+      `${this.baseUrl}/quantity/conversion/${toUnit}`,
       quantity
     );
   }
@@ -20,23 +20,23 @@ export class QuantityService {
   // POST /api/addition?toUnit=X
   add(dto: ArithmeticDTO, toUnit: string): Observable<ConversionResult> {
     const params = new HttpParams().set('toUnit', toUnit);
-    return this.http.post<ConversionResult>(`${this.baseUrl}/addition`, dto, { params });
+    return this.http.post<ConversionResult>(`${this.baseUrl}/quantity/addition`, dto, { params });
   }
 
   // POST /api/Subtraction?toUnit=X
   subtract(dto: ArithmeticDTO, toUnit: string): Observable<ConversionResult> {
     const params = new HttpParams().set('toUnit', toUnit);
-    return this.http.post<ConversionResult>(`${this.baseUrl}/Subtraction`, dto, { params });
+    return this.http.post<ConversionResult>(`${this.baseUrl}/quantity/subtraction`, dto, { params });
   }
   
   divide(dto: ArithmeticDTO,toUnit: string): Observable<ConversionResult>{
     const params = new HttpParams().set('toUnit', toUnit);
-    return this.http.post<ConversionResult>(`${this.baseUrl}/Division`, dto, { params });
+    return this.http.post<ConversionResult>(`${this.baseUrl}/quantity/division`, dto, { params });
   }
 
   // POST /api/CheckEquaity
   checkEquality(dto: ArithmeticDTO): Observable<boolean> {
-    return this.http.post<boolean>(`${this.baseUrl}/CheckEquaity`, dto);
+    return this.http.post<boolean>(`${this.baseUrl}/quantity/checkEquaity`, dto);
   }
   
   // getHistory(){
@@ -46,6 +46,6 @@ export class QuantityService {
   // }
 
   getHistory() {
-    return this.http.get(`${environment.apiUrl}/User/history`);
+    return this.http.get(`${environment.apiUrl}/user/history`);
   }
 }

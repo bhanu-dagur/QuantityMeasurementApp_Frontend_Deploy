@@ -67,7 +67,7 @@ export class AuthService {
   }
 
   login(dto: LoginDTO): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${environment.apiUrl}/Auth/login`, dto).pipe(
+    return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/login`, dto).pipe(
       tap((res) => {
         if (isPlatformBrowser(this.platformId)) {
           localStorage.setItem(this.tokenKey, res.token);
@@ -81,7 +81,7 @@ export class AuthService {
   }
 
   register(dto: RegisterDTO): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/Auth/register`, dto);
+    return this.http.post(`${environment.apiUrl}/auth/register`, dto);
   }
 
   logout(): void {
