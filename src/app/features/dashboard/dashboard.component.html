@@ -1,0 +1,85 @@
+<div class="dashboard">
+  
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="grid-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">✨ Quantity Management System</div>
+      <h1 class="hero-title">
+        Measure. Convert.<br>
+        <span class="gradient-text">Calculate.</span>
+      </h1>
+      <p class="hero-desc">
+        A powerful quantity calculator supporting Length, Weight, Volume & Temperature.
+        Convert, add, subtract and compare units — no login required!
+      </p>
+      <div class="hero-actions">
+        <a routerLink="/calculator" class="btn-primary">
+           Open Calculator
+        </a>
+        <ng-container *ngIf="!(authService.isLoggedIn$ | async)">
+          <a routerLink="/register" class="btn-secondary">
+            Create Account →
+          </a>
+        </ng-container>
+        <ng-container *ngIf="authService.isLoggedIn$ | async">
+          <span class="logged-badge">
+            ✅ Logged in as {{ (authService.currentUser$ | async)?.fullName }}
+          </span>
+        </ng-container>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">What You Can Do</h2>
+      <div class="features-grid">
+        <div class="feature-card" *ngFor="let f of features">
+          <span class="feature-icon">{{ f.icon }}</span>
+          <h3>{{ f.title }}</h3>
+          <p>{{ f.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Unit Categories -->
+  <section class="section section-dark">
+    <div class="container">
+      <h2 class="section-title">Supported Units</h2>
+      <div class="categories-grid">
+        <div class="category-card" *ngFor="let cat of categories">
+          <div class="cat-header">
+            <span class="cat-icon">{{ cat.icon }}</span>
+            <h3>{{ cat.name }}</h3>
+          </div>
+          <div class="unit-tags">
+            <span class="unit-tag" *ngFor="let unit of cat.units">{{ unit }}</span>
+          </div>
+          <div class="cat-badge" [class.supported]="cat.supportsArithmetic">
+            {{ cat.supportsArithmetic ? '✅ Arithmetic Supported' : '🔄 Conversion Only' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Auth CTA -->
+  <section class="cta-section" *ngIf="!(authService.isLoggedIn$ | async)">
+    <div class="container">
+      <div class="cta-card">
+        <h2>Save Your Calculation History</h2>
+        <p>Create a free account to store your conversion history and access it anytime.</p>
+        <div class="cta-actions">
+          <a routerLink="/register" class="btn-primary">Create Free Account</a>
+          <a routerLink="/login" class="btn-outline">Already have an account? Login</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

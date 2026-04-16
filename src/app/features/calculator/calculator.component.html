@@ -1,0 +1,130 @@
+<div class="calc-page">
+  <div class="calc-header">
+    <h1> Quantity Calculator</h1>
+    <p>Convert and compute quantities — no login required</p>
+  </div>
+
+  <div class="calc-layout">
+    <!-- Left Panel -->
+    <div class="calc-panel">
+
+      <!-- Category Selector -->
+      <div class="panel-section">
+        <label class="panel-label">📐 Select Category</label>
+        <div class="category-tabs">
+          <button *ngFor="let cat of categories" class="cat-tab" [class.active]="selectedCategory.name === cat.name"
+            (click)="selectCategory(cat)">
+            <span>{{ cat.icon }}</span>
+            <span>{{ cat.name }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Operation Selector -->
+      <div class="panel-section">
+        <label class="panel-label"> Operation</label>
+        <div class="op-tabs">
+          <button *ngFor="let op of operations" class="op-tab" [class.active]="operation === op.key"
+            [class.disabled]="!selectedCategory.supportsArithmetic && (op.key === 'addition' || op.key === 'subtraction' || op.key==='division')"
+            (click)="selectOperation(op.key)">
+            {{ op.icon }} {{ op.label }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Quantity 1 Input -->
+      <div class="panel-section">
+        <label class="panel-label">{{ isArithmetic() ? '📦 Quantity 1' : '📦 From' }}</label>
+        <div class="input-row">
+          <input type="number" class="value-input" [(ngModel)]="value1" placeholder="Enter value" />
+          <select class="unit-select" [(ngModel)]="unit1">
+            <option *ngFor="let u of selectedCategory.units" [value]="u">{{ u }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Quantity 2 (Arithmetic only) -->
+      <div class="panel-section" *ngIf="isArithmetic()">
+        <label class="panel-label">📦 Quantity 2</label>
+        <div class="input-row">
+          <input type="number" class="value-input" [(ngModel)]="value2" placeholder="Enter value" />
+          <select class="unit-select" [(ngModel)]="unit2">
+            <option *ngFor="let u of selectedCategory.units" [value]="u">{{ u }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Target Unit -->
+      <div class="panel-section" *ngIf="needsTargetUnit()">
+        <label class="panel-label">🎯 Result In</label>
+        <select class="unit-select full-width" [(ngModel)]="targetUnit">
+          <option *ngFor="let u of selectedCategory.units" [value]="u">{{ u }}</option>
+        </select>
+      </div>
+
+      <!-- Calculate Button -->
+      <button class="calc-btn" (click)="calculate()" [disabled]="loading()">
+        <span *ngIf="!loading()">⚡ Calculate</span>
+        <span *ngIf="loading()" class="spinner">⏳ Calculating...</span>
+      </button>
+
+      <!-- Error -->
+      <div class="error-box" *ngIf="error()">
+        {{ error() }}
+      </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="result-panel">
+
+      <!-- Conversion / Arithmetic Result -->
+      <div class="result-box" *ngIf="result()">
+        <div class="result-label">Result</div>
+        <div class="result-value">{{ result()?.resultValue }}</div>
+        <div class="result-unit">{{ result()?.resultUnit }}</div>
+        <div class="result-from">
+          from {{ value1 }} {{ unit1 }}
+          <span *ngIf="isArithmetic()"> {{ 
+            operation === 'addition' ? ' + ' : 
+            operation === 'subtraction' ? ' - ' :
+            operation === 'division' ? ' / ': ''
+            }} 
+            {{ value2 }} {{ unit2 }}
+          </span>
+        </div>
+      </div>
+
+      <!-- EQUALITY -->
+      <div class="result-box equality" *ngIf="operation === 'equality' && equalityResult() !== null">
+        <div class="result-label">Equality Check</div>
+        <div class="equality-icon" [class.equal]="equalityResult()">
+          {{ equalityResult() ? '✅' : '❌' }}
+        </div>
+        <div class="equality-text">
+          {{ equalityResult() ? 'Values are EQUAL' : 'Values are NOT equal' }}
+        </div>
+      </div>
+
+      <!-- Placeholder -->
+      <div class="result-placeholder" *ngIf="result() === null && equalityResult() === null && !error()">
+        <span class="placeholder-icon">🔢</span>
+        <p>Enter values and click Calculate to see results</p>
+      </div>
+
+      <!-- History -->
+      <div class="history-section" *ngIf="history.length > 0">
+        <div class="history-header">
+          <span>📋 Recent ({{ history.length }})</span>
+          <button class="clear-btn" (click)="clearHistory()">Clear</button>
+        </div>
+        <div class="history-list">
+          <div class="history-item" *ngFor="let h of history">
+            <div class="history-label">{{ h.label }}</div>
+            <div class="history-result">{{ h.result }}</div>
+            <div class="history-time">{{ h.time | date:'HH:mm:ss' }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

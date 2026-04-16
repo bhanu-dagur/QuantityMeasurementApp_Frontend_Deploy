@@ -1,0 +1,51 @@
+
+<div class="history-container">
+
+  <h2>📊 Your Calculation History</h2>
+
+  <!-- <div *ngIf="isLoading" class="loading">
+    Loading history...
+  </div> -->
+  @if(!isLoading && historyData().length > 0){
+    
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Input1</th>
+        <th>Unit1</th>
+        <th>Input2</th>
+        <th>Unit2</th>
+        <th>Operation</th>
+        <th>Target Unit</th>
+        <th>Result</th>
+        <th>Result Unit</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for(item of historyData(); track $index){
+        <tr>
+        <td>{{ $index + 1 }}</td>
+        <td>{{ item.inputValue1 }}</td>
+        <td>{{ item.inputUnit1 }}</td>
+        <td>{{ item.inputValue2 }}</td>
+        <td>{{ item.inputUnit2 }}</td>
+        <td>{{ item.operation }}</td>
+        <td>{{ item.targetUnit }}</td>
+        <td class="result">{{ item.resultValue }}</td>
+        <td>{{ item.resultUnit }}</td>
+        <td>{{ item.createdAt | date:'medium' }}</td>
+      </tr>
+    }
+    </tbody>
+  </table>
+}
+@else{
+    <div class="no-data">
+      ❌ No history found
+    </div>
+  }
+  
+</div>

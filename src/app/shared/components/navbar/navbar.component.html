@@ -1,0 +1,36 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <a routerLink="/" class="nav-brand">
+      <span class="brand-icon">⚡</span>
+      <span class="brand-text">QuantiCalc</span>
+    </a>
+
+    <button class="hamburger" (click)="toggleMenu()" [class.open]="isMenuOpen">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav-links" [class.open]="isMenuOpen">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
+         (click)="isMenuOpen=false">Home</a>
+      <a routerLink="/calculator" routerLinkActive="active"
+         (click)="isMenuOpen=false">Calculator</a>
+      <a routerLink="/history" routerLinkActive="active"
+         (click)="isMenuOpen=false">History</a>
+        
+
+      <ng-container *ngIf="authService.isLoggedIn$ | async; else guestLinks">
+        <span class="user-badge">
+          👤 {{ (authService.currentUser$ | async)?.fullName || 'User' }}
+        </span>
+        <button class="btn-logout" (click)="logout()">Logout</button>
+      </ng-container>
+
+      <ng-template #guestLinks>
+        <a routerLink="/login" routerLinkActive="active"
+           (click)="isMenuOpen=false" class="btn-login">Login</a>
+        <a routerLink="/register" routerLinkActive="active"
+           (click)="isMenuOpen=false" class="btn-register">Sign Up</a>
+      </ng-template>
+    </div>
+  </div>
+</nav>
