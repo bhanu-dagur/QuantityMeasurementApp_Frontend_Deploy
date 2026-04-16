@@ -29,11 +29,12 @@
               "src/styles.css"
             ],
             "server": "src/main.server.ts",
-            "outputMode": "static",
+            "outputMode": "dict/frontend",
             "security": {
               "allowedHosts": []
             },
-            "ssr": false
+            "ssr": false,
+            "prerender":false
           },
           "configurations": {
             "production": {
