@@ -105,6 +105,7 @@ export class CalculatorComponent {
         },
         error: (err) => {
           this.error.set(err.error?.message || 'Conversion failed. Check your inputs.');
+          console.log(err);
           this.loading.set(false);
         }
       });

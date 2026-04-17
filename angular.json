@@ -33,8 +33,7 @@
             "security": {
               "allowedHosts": []
             },
-            "ssr": false,
-            "prerender":false
+            "ssr": false
           },
           "configurations": {
             "production": {
